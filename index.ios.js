@@ -11,14 +11,50 @@ import {
   Text,
   View
 } from 'react-native';
+
+import { firebaseApp } from './src/firebase/firebase.js'
 import ScoreBoard from './src/score-board.js'
 import ClaimWin from './src/claim-win.js'
 
 export default class catan extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      data: []
+    }
+
+    this.dataRef = firebaseApp.database().ref();
+  }
+
+  componentDidMount() {
+    firebaseApp.database().ref('/players/').once('value')
+      .then( snapshot => {
+        this.setState({data: snapshot.val()}, function() {console.log(this.state)})
+      })
+      .catch(console.error)
+  }
+
+  // listenForData (dataRef) {
+  //   // dataRef.on('value', snap => {
+
+  //   //   // get children as an array
+  //   //   var data = [];
+  //   //   snap.forEach((child) => {
+  //   //     console.log(child)
+  //   //     data.push({
+  //   //       title: child.val().title,
+  //   //       _key: child.key
+  //   //     });
+  //   //   });
+
+  //   // });
+  // }
+
   render() {
     return (
       <View style={styles.container}>
-        <ScoreBoard />
+        <ScoreBoard dataSource={this.state.data}/>
         <ClaimWin />
       </View>
     );

@@ -29,18 +29,11 @@ const columns = [
 ];
 
 
-export default ScoreBoard = () => {
-  dataSource = [{
-    name: 'Oliver',
-    wins: 10,
-    losses: 15,
-    played: 25
-
-  }]
+export default ScoreBoard = ({dataSource}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>react-native-simple-table</Text>
+      <Text style={styles.title}>Catan Table</Text>
       {<Table height={100} columnWidth={60} columns={columns} dataSource={dataSource} />}
     </View>
   );
